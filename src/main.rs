@@ -1,7 +1,13 @@
+use askama::Template;
+use askama_axum::IntoResponse;
 use axum::{routing::get, Router};
 
-async fn hello_world() -> &'static str {
-    "Hello, world!"
+#[derive(Template)]
+#[template(path = "test.html")]
+struct TestTemplate;
+
+async fn hello_world() -> impl IntoResponse {
+    TestTemplate
 }
 
 #[shuttle_runtime::main]
