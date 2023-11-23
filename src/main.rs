@@ -1,18 +1,11 @@
-use askama::Template;
-use askama_axum::IntoResponse;
+mod kraken;
 use axum::{routing::get, Router};
-
-#[derive(Template)]
-#[template(path = "test.html")]
-struct TestTemplate;
-
-async fn hello_world() -> impl IntoResponse {
-    TestTemplate
-}
-
+use kraken::{index, styles};
 #[shuttle_runtime::main]
 async fn main() -> shuttle_axum::ShuttleAxum {
-    let router = Router::new().route("/", get(hello_world));
+    let router = Router::new()
+        .route("/", get(index))
+        .route("/styles/tailwind.css", get(styles));
 
     Ok(router.into())
 }
